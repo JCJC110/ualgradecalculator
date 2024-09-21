@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ual grade calculator</title>
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="grades.css">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+
+	</head>
+	<body>
+		<!--background-->
+		<div class="gradient-bg">
+			<svg xmlns="http://www.w3.org/2000/svg">
+				<defs>
+					<filter id="goo">
+					<feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+					<feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8" result="goo" />
+					<feBlend in="SourceGraphic" in2="goo" />
+					</filter>
+			</defs>
+    		</svg>
+			<div class="gradient-container">
+				<div class="g1"></div>
+				<div class="g2"></div>
+				<div class="g3"></div>
+				<div class="g4"></div>
+				<div class="g5"></div>
+				<div class="interactive"></div>
+			</div>
+		</div>
+		<script>
+			document.addEventListener('DOMContentLoaded', () => {
+			const interBubble = document.querySelector('.interactive');
+			let curX = 0;
+			let curY = 0;
+			let tgX = 0;
+			let tgY = 0;
+
+			function move() {
+				curX += (tgX - curX) / 20;
+				curY += (tgY - curY) / 20;
+				interBubble.style.transform = `translate(${Math.round(curX)}px, ${Math.round(curY)}px)`;
+				requestAnimationFrame(() => {
+					move();
+				});
+			}
+
+			window.addEventListener('mousemove', (event) => {
+				tgX = event.clientX;
+				tgY = event.clientY;
+			});
+
+			move();
+		});
+		</script>
+
+
+		<!--clock-->
+		<div class="nav-bar">
+			<div id="clock">
+			<div id="time"></div>
+			<div id="date"></div>
+		</div>
+		</div>
+
+		<script>
+			var week = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+
+			function updateTime() {
+				var cd = new Date();
+				var time = zeroPadding(cd.getHours(), 2) + ':' + zeroPadding(cd.getMinutes(), 2) + ':' + zeroPadding(cd.getSeconds(), 2);
+				var date = zeroPadding(cd.getFullYear(), 4) + '-' + zeroPadding(cd.getMonth() + 1, 2) + '-' + zeroPadding(cd.getDate(), 2) + ' ' + week[cd.getDay()];
+
+				document.getElementById('time').textContent = time;
+				document.getElementById('date').textContent = date;
+			}
+
+			function zeroPadding(num, digit) {
+				var zero = '';
+				for (var i = 0; i < digit; i++) {
+					zero += '0';
+				}
+				return (zero + num).slice(-digit);
+			}
+
+			var timerID = setInterval(updateTime, 1000);
+			updateTime();
+		</script>
+
+		<!--ual grades calculator titles-->
+		<div class="title-div">
+			<p class="title-styles">UAL Grades Calculator</p>
+			<p class="sub-styles">Calculate your grades based on your unit grades</p>
+		</div>
+		<div class="center">
+			<div class="grade-calc-form-container">
+				<form id="gradeForm" onsubmit="calculateClassification(event)">
+
+					<!--ask for units in y2-->
+					<div class="form-group">
+					<p class="year2-title">Input your Y2 and Y3 Grades</p>
+					<div class="unitsyrr2-div">
+						<div class="form__group">
+							<input class="form__field" type="number" id="unitCountYear2" min="1" placeholder="How many units do your have in year 2?" required="">
+							<label class="form__label" for="unitCountYear2">How many units do you have in Year 2?</label>
+						</div>
+						<button type="button" onclick="generateFields('Year2')">
+							<svg xmlns="http://www.w3.org/2000/svg" class="arr-2" viewBox="0 0 24 24">
+								<path
+								d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+								></path>
+							</svg>
+							<span class="text">NEXT</span>
+							<span class="circle"></span>
+							<svg xmlns="http://www.w3.org/2000/svg" class="arr-1" viewBox="0 0 24 24">
+								<path
+								d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+								></path>
+							</svg>
+						</button>
+					</div>
+
+					</div>
+					<div id="dynamicFieldsYear2"></div>
+
+					<!--ask for units in y3-->
+					<div class="form-group">
+					<div class="unitsyr3-div">
+						<div class="form__group">
+							<input class="form__field" type="number" id="unitCountYear3" min="1" placeholder="How many units do your have in year 3?" required="">
+							<label class="form__label" for="unitCountYear3">How many units do you have in Year 3?</label>
+						</div>
+						<button  type="button" onclick="generateFields('Year3')">
+							<svg xmlns="http://www.w3.org/2000/svg" class="arr-2" viewBox="0 0 24 24">
+								<path
+								d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+								></path>
+							</svg>
+							<span class="text">NEXT</span>
+							<span class="circle"></span>
+							<svg xmlns="http://www.w3.org/2000/svg" class="arr-1" viewBox="0 0 24 24">
+								<path
+								d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+								></path>
+							</svg>
+						  </button>
+						</div>
+					</div>
+					<div id="dynamicFieldsYear3"></div>
+
+					<button type="submit" onclick="submit">
+						<svg xmlns="http://www.w3.org/2000/svg" class="arr-2" viewBox="0 0 24 24">
+							<path
+							d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+							></path>
+						</svg>
+						<span class="text">CALCULATE</span>
+						<span class="circle"></span>
+						<svg xmlns="http://www.w3.org/2000/svg" class="arr-1" viewBox="0 0 24 24">
+							<path
+							d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+							></path>
+						</svg>
+					</button>
+
+				</form>
+				<script>
+    const grades = {
+      "A+": 15, "A": 14, "A-": 13, "B+": 12, "B": 11,
+      "B-": 10, "C+": 9, "C": 8, "C-": 7, "D+": 6,
+      "D": 5, "D-": 4, "E": 3, "F": 2, "F-": 1
+    };
+
+    function generateFields(year) {
+      const unitCount = document.getElementById(`unitCount${year}`).value;
+      const dynamicFields = document.getElementById(`dynamicFields${year}`);
+      dynamicFields.innerHTML = '';
+
+      for (let i = 0; i < unitCount; i++) {
+        const fieldSet = document.createElement('div');
+        fieldSet.classList.add('form-group');
+
+
+		const gradeSelect = document.createElement('select');
+        gradeSelect.name = `grade${year}${i + 1}`;
+        gradeSelect.classList.add(
+			'appearance-none', 'hover:placeholder-shown:bg-emerald-500', 'relative',
+          'text-pink-400', 'bg-transparent', 'ring-0', 'outline-none',
+          'border', 'border-neutral-500', 'text-neutral-900', 'placeholder-violet-700',
+          'text-sm', 'font-bold', 'rounded-lg', 'focus:ring-violet-500',
+          'focus:border-violet-500', 'p-2.5', 'w-16',
+          'bg-gray-50', 'overflow-hidden', 'before:absolute', 'before:w-12',
+          'before:h-12', 'before:content-[""]', 'before:right-0',
+          'before:bg-violet-500', 'before:rounded-full', 'before:blur-lg',
+          'before:[box-shadow:-60px_20px_10px_10px_#F9B0B9]'
+        );
+
+        ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'E', 'F', 'F-'].forEach(grade => {
+          const option = document.createElement('option');
+          option.value = grade;
+          option.textContent = grade;
+          gradeSelect.appendChild(option);
+        });
+
+        const creditInput = document.createElement('input');
+        creditInput.type = 'number';
+        creditInput.name = `credit${year}${i + 1}`;
+        creditInput.min = 1;
+        creditInput.max = 200;
+        creditInput.placeholder = 'Credit';
+
+        fieldSet.appendChild(gradeSelect);
+        fieldSet.appendChild(creditInput);
+        dynamicFields.appendChild(fieldSet);
+      }
+    }
+
+    function convert(grade) {
+      return grades[grade] || 0;
+    }
+
+    function classify(score) {
+      if (score >= 12.5) {
+        return "1st Honors";
+      } else if (score >= 10.0) {
+        return "2:1 Honors";
+      } else if (score >= 7.0) {
+        return "2:2 Honors";
+      } else if (score >= 4.0) {
+        return "3rd";
+      } else if (score >= 3.0) {
+        return "Marginal Fail";
+      } else if (score >= 1.0) {
+        return "Fail";
+      } else {
+        return "non-submission";
+      }
+    }
+
+    function calculateClassification(event) {
+      event.preventDefault();
+
+      const unitCountYear2 = document.getElementById('unitCountYear2').value;
+      const unitCountYear3 = document.getElementById('unitCountYear3').value;
+
+      let totalCreditsYear2 = 0;
+      let weightedGradesYear2 = 0;
+
+      for (let i = 0; i < unitCountYear2; i++) {
+        const gradeSelect = document.getElementsByName(`gradeYear2${i + 1}`)[0];
+        const creditInput = document.getElementsByName(`creditYear2${i + 1}`)[0];
+
+        const gradeValue = convert(gradeSelect.value);
+        const creditValue = parseFloat(creditInput.value);
+
+        weightedGradesYear2 += gradeValue * (creditValue / 100);
+        totalCreditsYear2 += creditValue;
+      }
+
+      if (totalCreditsYear2 !== 100) {
+        alert("Wrong credit sum for Year 2, should total to 100, try again");
+        return;
+      }
+
+      let totalCreditsYear3 = 0;
+      let weightedGradesYear3 = 0;
+
+      for (let i = 0; i < unitCountYear3; i++) {
+        const gradeSelect = document.getElementsByName(`gradeYear3${i + 1}`)[0];
+        const creditInput = document.getElementsByName(`creditYear3${i + 1}`)[0];
+
+        const gradeValue = convert(gradeSelect.value);
+        const creditValue = parseFloat(creditInput.value);
+
+        weightedGradesYear3 += gradeValue * (creditValue / 120);
+        totalCreditsYear3 += creditValue;
+      }
+
+      if (totalCreditsYear3 !== 120) {
+        alert("Wrong credit sum for Year 3, should total to 120, try again");
+        return;
+      }
+
+      const classification1 = weightedGradesYear3;
+
+      const class2Year2_30 = weightedGradesYear2 * 0.3;
+      const class2Year3_70 = weightedGradesYear3 * 0.7;
+      const classification2 = class2Year2_30 + class2Year3_70;
+
+      const highestClassification = classification1 >= classification2 ? classification1 : classification2;
+      const finalClassification = classify(highestClassification);
+
+      alert(`Your highest classification is: ${finalClassification}`);
+    }
+  </script>
+			</div>
+		</div>
+
+
+
+	</body>
+</html>
